@@ -764,7 +764,7 @@ export const BLOC1_QUESTIONS: Question[] = [
     keyPoints: [
       'Certification de Sécurité de Premier Niveau.',
       'Délivrée par l’ANSSI après évaluation par un CESTI (Centre d’Évaluation de la Sécurité des Technologies de l’Information) agréé.',
-      'Évaluation en temps et coût contraints (environ 25 à 35 jours-homme, ~2 mois) : conformité + tests d’attaque.',
+      'Évaluation en temps et coût contraints (25 hommes-jours de référence sur 8 semaines, + 10 si cryptographie) : conformité + tests de résistance. Certificat valable 3 ans.',
     ],
   },
   {

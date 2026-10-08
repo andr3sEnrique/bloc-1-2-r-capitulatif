@@ -31,6 +31,7 @@ export function ScopeBadge({ scope }: { scope: QuestionScope }) {
   const styles: Record<QuestionScope, string> = {
     1: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-300',
     2: 'bg-violet-100 text-violet-800 dark:bg-violet-500/15 dark:text-violet-300',
+    3: 'bg-teal-100 text-teal-800 dark:bg-teal-500/15 dark:text-teal-300',
     0: 'bg-slate-200 text-slate-700 dark:bg-slate-700/60 dark:text-slate-300',
   }
   return <Badge className={styles[scope]}>{SCOPE_LABELS[scope]}</Badge>

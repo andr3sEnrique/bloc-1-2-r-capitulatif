@@ -55,8 +55,8 @@ export function Home({
       </section>
 
       <h2 className="mt-8 mb-3 text-lg font-semibold">Votre progression</h2>
-      <div className="grid gap-4 md:grid-cols-3">
-        {([1, 2, 0] as QuestionScope[]).map((scope) => {
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {([1, 2, 3, 0] as QuestionScope[]).map((scope) => {
           const s = stats(scope, progress)
           return (
             <Card key={scope} className="p-5">

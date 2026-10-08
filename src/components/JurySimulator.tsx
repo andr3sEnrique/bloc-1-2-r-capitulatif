@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import { BLOCKS } from '../data/blocks'
 import { QUESTIONS } from '../data/questions'
 import { DIFFICULTY_LABELS, SCOPE_LABELS, type Difficulty, type QuestionScope } from '../data/types'
 import { DEFAULT_FILTERS, type JuryFilters } from '../lib/filters'
-import type { CardStatus, ProgressApi } from '../lib/progress'
+import type { ProgressApi } from '../lib/progress'
 import { newSeed, shuffle } from '../lib/shuffle'
-import { Flashcard } from './Flashcard'
-import { Chip, PageHeader, ProgressBar } from './ui'
+import { DeckPlayer, ShuffleControls } from './DeckPlayer'
+import { Chip, PageHeader } from './ui'
 
 const ALL_CRITERIA = BLOCKS.flatMap((b) => b.criteria.map((c) => ({ code: c.code, title: c.title, block: b.id })))
+const SCOPES: QuestionScope[] = [1, 2, 3, 0]
 
 const normalize = (s: string) =>
   s
@@ -33,8 +34,8 @@ export function JurySimulator({
   const [seed, setSeed] = useState(newSeed)
   // Instantané de la progression au moment du filtrage : marquer une carte ne la retire pas du paquet en cours.
   const [snapshot, setSnapshot] = useState(progress.progress)
-  const [index, setIndex] = useState(0)
-  const [revealed, setRevealed] = useState(false)
+  // Incrémenté à chaque changement du paquet : remonte le DeckPlayer sur la première carte.
+  const [deckVersion, setDeckVersion] = useState(0)
   const [showFilters, setShowFilters] = useState(false)
 
   const filtered = useMemo(() => {
@@ -60,48 +61,7 @@ export function JurySimulator({
   const deck = useMemo(() => (shuffled ? shuffle(filtered, seed) : filtered), [filtered, shuffled, seed])
 
   /** Toute modification du paquet repart de la première carte. */
-  const restart = () => {
-    setIndex(0)
-    setRevealed(false)
-  }
-
-  const current = deck[index]
-  const done = deck.filter((q) => progress.progress[q.id]).length
-  const known = deck.filter((q) => progress.progress[q.id] === 'known').length
-
-  const go = useCallback(
-    (delta: number) => {
-      setIndex((i) => Math.min(Math.max(i + delta, 0), Math.max(deck.length - 1, 0)))
-      setRevealed(false)
-    },
-    [deck.length],
-  )
-
-  const mark = useCallback(
-    (s: CardStatus) => {
-      if (!current) return
-      progress.mark(current.id, s)
-      if (index < deck.length - 1) go(1)
-    },
-    [current, deck.length, go, index, progress],
-  )
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
-      if (e.key === ' ' || e.key === 'Enter') {
-        if (target.tagName === 'BUTTON') return
-        e.preventDefault()
-        setRevealed(true)
-      } else if (e.key === 'ArrowRight') go(1)
-      else if (e.key === 'ArrowLeft') go(-1)
-      else if (revealed && e.key === '1') mark('review')
-      else if (revealed && e.key === '2') mark('known')
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [go, mark, revealed])
+  const restart = () => setDeckVersion((v) => v + 1)
 
   const applyFilters = (f: JuryFilters) => {
     setSnapshot(progress.progress)
@@ -109,9 +69,9 @@ export function JurySimulator({
     restart()
   }
   const set = (patch: Partial<JuryFilters>) => applyFilters({ ...filters, ...patch })
-  const criteriaOptions = ALL_CRITERIA.filter((c) => filters.scopes.includes(c.block))
+  const criteriaOptions = ALL_CRITERIA.filter((c) => filters.scopes.includes(c.block) || filters.scopes.includes(3))
   const activeFilterCount =
-    (filters.scopes.length !== 3 ? 1 : 0) +
+    (filters.scopes.length !== SCOPES.length ? 1 : 0) +
     (filters.difficulties.length !== 4 ? 1 : 0) +
     (filters.criterion ? 1 : 0) +
     (filters.status !== 'all' ? 1 : 0) +
@@ -126,7 +86,7 @@ export function JurySimulator({
         subtitle="Questions incisives issues des sujets blancs, du référentiel et de la culture sécurité attendue à ce niveau."
       />
 
-      <div className="grid gap-5 lg:grid-cols-[18rem_1fr]">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[18rem_minmax(0,1fr)]">
         {/* Filtres */}
         <aside>
           <button
@@ -151,7 +111,7 @@ export function JurySimulator({
             </FilterGroup>
 
             <FilterGroup label="Périmètre">
-              {([1, 2, 0] as QuestionScope[]).map((s) => (
+              {SCOPES.map((s) => (
                 <Chip key={s} active={filters.scopes.includes(s)} onClick={() => set({ scopes: toggle(filters.scopes, s), criterion: '' })}>
                   {SCOPE_LABELS[s]}
                 </Chip>
@@ -232,70 +192,33 @@ export function JurySimulator({
 
         {/* Paquet */}
         <section className="min-w-0">
-          <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-            <span className="font-medium">
-              {deck.length === 0 ? 'Aucune question' : `Question ${index + 1} / ${deck.length}`}
-            </span>
-            <span className="text-slate-500 dark:text-slate-400">
-              {known} maîtrisée{known > 1 ? 's' : ''} · {done - known} à revoir
-            </span>
-            <label className="ml-auto flex cursor-pointer items-center gap-2 select-none">
-              <input
-                type="checkbox"
-                checked={shuffled}
-                onChange={(e) => {
-                  setShuffled(e.target.checked)
+          <DeckPlayer
+            key={deckVersion}
+            questions={deck}
+            progress={progress}
+            toolbar={
+              <ShuffleControls
+                shuffled={shuffled}
+                onToggle={(v) => {
+                  setShuffled(v)
                   setSeed(newSeed())
                   restart()
                 }}
-                className="h-4 w-4 accent-indigo-600"
-              />
-              Ordre aléatoire
-            </label>
-            {shuffled && (
-              <button
-                type="button"
-                onClick={() => {
+                onReshuffle={() => {
                   setSeed(newSeed())
                   restart()
                 }}
-                className="font-medium text-indigo-600 hover:underline dark:text-indigo-400">
-                Remélanger
-              </button>
-            )}
-          </div>
-          <ProgressBar value={done} max={deck.length} className="mb-4" />
-
-          {current ? (
-            <>
-              <Flashcard
-                key={current.id}
-                question={current}
-                revealed={revealed}
-                onReveal={() => setRevealed(true)}
-                status={progress.progress[current.id]}
-                onMark={mark}
               />
-              <div className="mt-4 flex items-center justify-between gap-2">
-                <NavButton onClick={() => go(-1)} disabled={index === 0}>
-                  ← Précédente
-                </NavButton>
-                <span className="hidden text-xs text-slate-500 sm:block dark:text-slate-400">
-                  Raccourcis : Espace = révéler · ←/→ = naviguer · 1/2 = évaluer
-                </span>
-                <NavButton onClick={() => go(1)} disabled={index >= deck.length - 1}>
-                  Suivante →
-                </NavButton>
-              </div>
-            </>
-          ) : (
-            <div className="rounded-3xl border border-dashed border-slate-300 p-10 text-center text-slate-500 dark:border-slate-700 dark:text-slate-400">
-              Aucune question ne correspond à ces filtres.
-              <button type="button" onClick={() => applyFilters(DEFAULT_FILTERS)} className="mt-3 block w-full font-medium text-indigo-600 dark:text-indigo-400">
-                Réinitialiser les filtres
-              </button>
-            </div>
-          )}
+            }
+            empty={
+              <>
+                Aucune question ne correspond à ces filtres.
+                <button type="button" onClick={() => applyFilters(DEFAULT_FILTERS)} className="mt-3 block w-full font-medium text-indigo-600 dark:text-indigo-400">
+                  Réinitialiser les filtres
+                </button>
+              </>
+            }
+          />
         </section>
       </div>
     </div>
@@ -308,18 +231,5 @@ function FilterGroup({ label, children }: { label: string; children: ReactNode }
       <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{label}</legend>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </fieldset>
-  )
-}
-
-function NavButton({ children, onClick, disabled }: { children: ReactNode; onClick: () => void; disabled: boolean }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800"
-    >
-      {children}
-    </button>
   )
 }

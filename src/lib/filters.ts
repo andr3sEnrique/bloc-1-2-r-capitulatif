@@ -11,7 +11,7 @@ export interface JuryFilters {
 }
 
 export const DEFAULT_FILTERS: JuryFilters = {
-  scopes: [1, 2, 0],
+  scopes: [1, 2, 3, 0],
   difficulties: [1, 2, 3, 4],
   criterion: '',
   status: 'all',

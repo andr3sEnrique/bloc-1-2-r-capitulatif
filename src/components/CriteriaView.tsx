@@ -17,10 +17,12 @@ export function CriteriaView({
   block,
   onBlockChange,
   onTrain,
+  onTheory,
 }: {
   block: BlockId
   onBlockChange: (b: BlockId) => void
   onTrain: (criterion: string) => void
+  onTheory: (criterion: string) => void
 }) {
   const [tab, setTab] = useState<Tab>('criteres')
   const data = getBlock(block)
@@ -53,7 +55,7 @@ export function CriteriaView({
         {tab === 'criteres' && (
           <div className="grid gap-4 lg:grid-cols-2">
             {data.criteria.map((c) => (
-              <CriterionCard key={c.code} criterion={c} onTrain={() => onTrain(c.code)} />
+              <CriterionCard key={c.code} criterion={c} onTrain={() => onTrain(c.code)} onTheory={() => onTheory(c.code)} />
             ))}
           </div>
         )}
@@ -107,9 +109,9 @@ function TimelineCard({ title, items }: { title: string; items: string[] }) {
   )
 }
 
-function CriterionCard({ criterion, onTrain }: { criterion: Criterion; onTrain: () => void }) {
+function CriterionCard({ criterion, onTrain, onTheory }: { criterion: Criterion; onTrain: () => void; onTheory: () => void }) {
   const [open, setOpen] = useState(false)
-  const count = QUESTIONS.filter((q) => q.criteria.includes(criterion.code)).length
+  const count = QUESTIONS.filter((q) => q.scope !== 3 && q.criteria.includes(criterion.code)).length
 
   return (
     <Card className="flex flex-col p-5">
@@ -158,7 +160,14 @@ function CriterionCard({ criterion, onTrain }: { criterion: Criterion; onTrain: 
           onClick={onTrain}
           className="rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400"
         >
-          S’entraîner ({count})
+          Questions du jury ({count})
+        </button>
+        <button
+          type="button"
+          onClick={onTheory}
+          className="rounded-lg bg-teal-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-400"
+        >
+          Théorie pure
         </button>
       </div>
     </Card>

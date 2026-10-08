@@ -3,6 +3,7 @@
 SPA de révision pour le titre RNCP niveau 7 **« Expert en sécurité des développements informatiques »** — Blocs 1 et 2.
 
 - **Critères & sujets** : critères officiels C1 → C11, ce que le jury attend, erreurs qui pénalisent, format de l’épreuve (découpage des 4 h, trame des 20 min) et sujets blancs (CHU de Val-de-Loire, OuiOuiGo).
+- **Théorie** : pour chaque critère C1 → C11, un cours sans contexte d’entreprise (sections, « À retenir », sources vérifiées) et un entraînement de théorie pure (152 flashcards).
 - **Simulateur de jury** : 185 flashcards (fondamental → expert), banque officielle, pièges, relances du jury ; filtres par bloc, difficulté, critère, progression ; recherche ; ordre aléatoire ; raccourcis clavier.
 - **Oral blanc** : tirage de 5/8/12 questions à difficulté croissante, chrono de 10 min, bilan sur 20.
 - **Glossaire** : acronymes à maîtriser.
@@ -23,6 +24,7 @@ Tout le contenu est dans `src/data/` :
 | `questions/bloc1.ts` | Questions du Bloc 1 (cas CHU) |
 | `questions/bloc2.ts` | Questions du Bloc 2 (cas OuiOuiGo) |
 | `questions/general.ts` | Culture générale et questions pièges |
+| `theory/c1.ts` … `theory/c11.ts` | Cours de théorie + questions de théorie pure, un fichier par critère |
 | `glossary.ts` | Glossaire |
 | `types.ts` | Schéma des données |
 

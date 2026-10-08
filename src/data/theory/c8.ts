@@ -1,0 +1,268 @@
+import type { TheoryModule } from '../types'
+
+const C8: TheoryModule = {
+  theory: {
+    code: 'C8',
+    intro:
+      'La veille est une surveillance active et continue de l’environnement pour anticiper les évolutions : nouvelles vulnérabilités et menaces, technologies, lois et règlements. Elle n’a de valeur que si elle est organisée en cycle (besoins, collecte, analyse, diffusion, capitalisation) et priorisée selon le contexte de l’organisation.',
+    sections: [
+      {
+        title: 'Définition et types de veille',
+        points: [
+          'Définition historique (norme AFNOR XP X50-053, 1998, aujourd’hui annulée) : activité continue et itérative de surveillance active de l’environnement pour en anticiper les évolutions.',
+          'Types : technologique, juridique et réglementaire, sécurité (menaces et vulnérabilités, CTI), concurrentielle, image et e-réputation.',
+          'Information blanche (publique), grise (accès discret et licite) et noire (illicite, exclue).',
+        ],
+      },
+      {
+        title: 'Le cycle de veille',
+        points: [
+          '1. Expression des besoins et ciblage : axes de surveillance, périmètre, mots-clés.',
+          '2. Sourcing et collecte : identifier et qualifier les sources, automatiser.',
+          '3. Traitement et analyse : trier, recouper, évaluer la fiabilité et la pertinence.',
+          '4. Diffusion : le bon livrable à la bonne personne (alerte, bulletin, note de synthèse).',
+          '5. Capitalisation et exploitation : base de connaissances, décisions.',
+          '6. Retour d’expérience : réajuster les besoins. Le nombre d’étapes varie selon les auteurs.',
+        ],
+      },
+      {
+        title: 'Publications du CERT-FR',
+        points: [
+          'Alertes de sécurité : danger immédiat (ex. vulnérabilité activement exploitée).',
+          'Avis de sécurité : vulnérabilités et moyens de s’en prémunir.',
+          'Bulletins d’actualité, rapports sur les menaces et incidents (CTI), indicateurs de compromission.',
+          'Guides de durcissement et fiches réflexes.',
+        ],
+      },
+      {
+        title: 'L’écosystème des vulnérabilités',
+        points: [
+          'CVE : identifiant unique (CVE-AAAA-NNNN) attribué par des CNA ; programme créé en 1999, opéré par MITRE et financé par la CISA (crise de financement en 2025, puis financement sécurisé en 2026).',
+          'NVD (NIST) : enrichit les CVE avec CVSS, CWE et CPE (retard d’enrichissement depuis 2024).',
+          'EUVD (ENISA) : base européenne opérationnelle depuis mai 2025, prévue par NIS2.',
+          'CISA KEV : catalogue des vulnérabilités exploitées dans la nature (novembre 2021).',
+          'EPSS (FIRST) : probabilité d’exploitation dans les 30 jours (v4 en mars 2025). CVSS v4.0 : sévérité.',
+        ],
+      },
+      {
+        title: 'Prioriser',
+        points: [
+          'Vulnérabilités : pertinence pour notre parc (SBOM, inventaire), exploitation avérée (KEV, CERT-FR), probabilité (EPSS), sévérité (CVSS), exposition et criticité de l’actif.',
+          'Veille juridique : date d’application, entités concernées, sanctions, effort de mise en conformité.',
+          'Outils de décision : matrice impact × urgence, MoSCoW, arbre de décision SSVC (Track, Track*, Attend, Act).',
+        ],
+      },
+      {
+        title: 'Sources juridiques',
+        points: [
+          'Légifrance (droit français, Journal officiel) et EUR-Lex (Journal officiel de l’UE).',
+          'CNIL (délibérations, référentiels, sanctions), ANSSI (cyber.gouv.fr), ENISA, EDPB.',
+          'Sites du Sénat et de l’Assemblée nationale pour suivre les projets de loi.',
+        ],
+      },
+      {
+        title: 'Textes et échéances à surveiller (octobre 2026)',
+        points: [
+          'RGPD : applicable depuis le 25 mai 2018.',
+          'NIS2 : transposition due au 17 octobre 2024 ; en France, projet de loi « Résilience » toujours non promulgué en octobre 2026 ; la Commission a saisi la CJUE en juillet 2026.',
+          'Cyber Resilience Act : en vigueur depuis le 10 décembre 2024 ; signalement des vulnérabilités exploitées depuis le 11 septembre 2026 (24 h / 72 h / 14 jours) ; application complète le 11 décembre 2027.',
+          'DORA : applicable depuis le 17 janvier 2025 au secteur financier.',
+          'AI Act : en vigueur depuis le 1er août 2024 ; obligations « haut risque » reportées au 2 décembre 2027 et au 2 août 2028 par l’omnibus numérique de 2026.',
+          'eIDAS 2 : en vigueur depuis mai 2024 ; portefeuilles d’identité numérique européens attendus fin 2026.',
+        ],
+      },
+      {
+        title: 'Outils et diffusion',
+        points: [
+          'Agrégateurs RSS (FreshRSS auto-hébergé, Feedly), alertes, listes de diffusion (oss-security, CERT-FR).',
+          'Plateformes CTI : MISP (partage d’indicateurs) et OpenCTI (STIX 2.1, MITRE ATT&CK).',
+          'Flux automatisés : KEV (JSON), API EPSS et NVD, EUVD, alertes de dépendances (Dependabot, OSV).',
+          'Diffusion encadrée par le TLP v2.0 (FIRST, 2022) : CLEAR, GREEN, AMBER, AMBER+STRICT, RED.',
+          'Capitalisation : wiki, tags, registre des textes applicables et de leurs échéances, indicateurs (délai de prise en compte, couverture des sources).',
+        ],
+      },
+    ],
+    takeaways: [
+      'Cycle de veille : besoins → collecte → analyse → diffusion → capitalisation → retour d’expérience.',
+      'CERT-FR : alertes (danger immédiat) ≠ avis (vulnérabilités et parades).',
+      'CVE = identifiant ; CVSS = sévérité ; EPSS = probabilité ; KEV = exploitation avérée.',
+      'CRA : signalement des vulnérabilités exploitées depuis le 11 septembre 2026.',
+      'TLP v2.0 : CLEAR, GREEN, AMBER, AMBER+STRICT, RED.',
+    ],
+    sources: [
+      { label: 'CERT-FR', url: 'https://www.cert.ssi.gouv.fr/' },
+      { label: 'FIRST – EPSS', url: 'https://www.first.org/epss/' },
+      { label: 'CISA – Known Exploited Vulnerabilities', url: 'https://www.cisa.gov/known-exploited-vulnerabilities-catalog' },
+      { label: 'Commission européenne – Lancement de l’EUVD', url: 'https://digital-strategy.ec.europa.eu/en/news/eu-launches-european-vulnerability-database-boost-its-digital-security' },
+      { label: 'FIRST – Traffic Light Protocol 2.0', url: 'https://www.first.org/tlp/' },
+      { label: 'Cyber Resilience Act – obligations de signalement', url: 'https://www.brownejacobson.com/insights/cyber-resilience-act-reporting-obligations-in-force' },
+      { label: 'Suivi de la loi Résilience (NIS2)', url: 'https://directive-nis2.fr/loi-resilience/' },
+    ],
+  },
+  questions: [
+    {
+      id: 't-c8-01',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 1,
+      topic: 'Cycle',
+      question: 'Quelles sont les étapes du cycle de veille ?',
+      keyPoints: [
+        'Expression des besoins (ciblage).',
+        'Collecte (sourcing).',
+        'Traitement et analyse.',
+        'Diffusion.',
+        'Capitalisation et exploitation, puis retour d’expérience.',
+      ],
+    },
+    {
+      id: 't-c8-02',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 1,
+      topic: 'Types',
+      question: 'Citez les grands types de veille utiles à un responsable sécurité.',
+      keyPoints: [
+        'Veille sécurité : vulnérabilités, menaces, modes opératoires.',
+        'Veille technologique : nouvelles technologies, versions, fins de support.',
+        'Veille juridique et réglementaire : lois, règlements, normes, jurisprudence.',
+      ],
+    },
+    {
+      id: 't-c8-03',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 1,
+      topic: 'Sources',
+      question: 'Quelle différence entre une alerte et un avis du CERT-FR ?',
+      keyPoints: [
+        'Alerte : danger immédiat, souvent une vulnérabilité activement exploitée, à traiter en urgence.',
+        'Avis : information sur des vulnérabilités et les moyens de s’en prémunir (correctifs).',
+      ],
+    },
+    {
+      id: 't-c8-04',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 2,
+      topic: 'Vulnérabilités',
+      question: 'Différence entre CVE, NVD et EUVD ?',
+      keyPoints: [
+        'CVE : identifiant unique d’une vulnérabilité, attribué par une CNA (programme opéré par MITRE).',
+        'NVD (NIST) : base américaine qui enrichit les CVE (CVSS, CWE, CPE).',
+        'EUVD (ENISA) : base européenne opérationnelle depuis mai 2025, prévue par NIS2.',
+      ],
+    },
+    {
+      id: 't-c8-05',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 2,
+      topic: 'Priorisation',
+      question: 'Comment prioriser des dizaines de CVE publiées chaque jour ?',
+      keyPoints: [
+        'Pertinence : le composant est-il dans notre inventaire ou SBOM, dans la version concernée ?',
+        'Exploitation avérée (CISA KEV, alertes CERT-FR) et probabilité d’exploitation (EPSS).',
+        'Sévérité (CVSS), exposition (Internet ou interne) et criticité de l’actif.',
+        'Associer à chaque niveau un délai de traitement.',
+      ],
+    },
+    {
+      id: 't-c8-06',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 2,
+      topic: 'Diffusion',
+      question: 'Qu’est-ce que le TLP et quels sont ses niveaux ?',
+      keyPoints: [
+        'Traffic Light Protocol (FIRST, v2.0 en 2022) : règles de partage d’une information sensible.',
+        'RED : destinataires nommés uniquement ; AMBER+STRICT : organisation du destinataire seulement ; AMBER : organisation et ses clients si besoin d’en connaître.',
+        'GREEN : communauté, mais pas publiquement ; CLEAR : diffusion libre.',
+      ],
+    },
+    {
+      id: 't-c8-07',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 2,
+      topic: 'Outils',
+      question: 'Quels outils utilisez-vous pour organiser une veille ?',
+      keyPoints: [
+        'Agrégateur RSS (FreshRSS, Feedly) et alertes (CERT-FR, éditeurs, listes de diffusion).',
+        'Flux automatisés : KEV, EPSS, NVD, alertes de dépendances liées au SBOM.',
+        'Plateformes CTI : MISP, OpenCTI.',
+        'Wiki ou base de connaissances pour capitaliser, canal de diffusion interne.',
+      ],
+    },
+    {
+      id: 't-c8-08',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 3,
+      topic: 'Réglementation',
+      question: 'Quelles sont les échéances du Cyber Resilience Act ?',
+      keyPoints: [
+        'Entrée en vigueur : 10 décembre 2024.',
+        'Signalement des vulnérabilités activement exploitées et des incidents graves : depuis le 11 septembre 2026 (alerte 24 h, notification 72 h, rapport final).',
+        'Application complète (dont marquage CE) : 11 décembre 2027.',
+      ],
+    },
+    {
+      id: 't-c8-09',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 3,
+      topic: 'Réglementation',
+      question: 'Quelles sont les échéances de l’AI Act, et qu’a changé l’omnibus numérique de 2026 ?',
+      keyPoints: [
+        'En vigueur depuis le 1er août 2024 ; interdictions applicables le 2 février 2025 ; modèles d’IA à usage général le 2 août 2025.',
+        'L’omnibus de 2026 reporte les obligations des systèmes à haut risque au 2 décembre 2027 (annexe III) et au 2 août 2028 (annexe I).',
+        'Les supports qui indiquent « haut risque au 2 août 2026 » sont périmés.',
+      ],
+      trap: 'Exemple typique de veille réglementaire : une date apprise en formation peut avoir changé.',
+    },
+    {
+      id: 't-c8-10',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 3,
+      topic: 'CTI',
+      question: 'Qu’est-ce que MISP et OpenCTI ?',
+      keyPoints: [
+        'MISP : plateforme open source (initiée par le CIRCL, Luxembourg) de partage d’indicateurs de compromission.',
+        'OpenCTI : plateforme de renseignement sur la menace (Filigran, initiée avec l’ANSSI et le CERT-EU), au format STIX 2.1 et reliée à MITRE ATT&CK.',
+        'Elles servent à structurer et partager la veille sur les menaces.',
+      ],
+    },
+    {
+      id: 't-c8-11',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 3,
+      topic: 'Organisation',
+      question: 'Comment rendre une veille efficace plutôt qu’une simple accumulation d’informations ?',
+      keyPoints: [
+        'Partir de besoins explicites (périmètre, technologies utilisées, obligations).',
+        'Désigner un responsable, une fréquence et des destinataires.',
+        'Qualifier et prioriser chaque information, puis la transformer en action (ticket, mise à jour, décision).',
+        'Capitaliser et mesurer : délai de prise en compte, taux de traitement des vulnérabilités KEV.',
+      ],
+    },
+    {
+      id: 't-c8-12',
+      scope: 3,
+      criteria: ['C8'],
+      difficulty: 4,
+      topic: 'Écosystème',
+      question: 'Que s’est-il passé avec le programme CVE en 2025-2026 et quelle leçon en tirer ?',
+      keyPoints: [
+        'Avril 2025 : crise de financement du contrat MITRE ; prolongation en urgence par la CISA, création de la CVE Foundation.',
+        'Janvier 2026 : financement sécurisé sur une ligne budgétaire protégée.',
+        'L’Europe a lancé l’EUVD (mai 2025) en partie pour réduire cette dépendance.',
+        'Leçon : diversifier les sources de veille (CERT-FR, EUVD, éditeurs, OSV).',
+      ],
+    },
+  ],
+}
+
+export default C8

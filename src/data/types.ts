@@ -1,7 +1,11 @@
 export type BlockId = 1 | 2
 
-/** 0 = questions générales / pièges (transverses aux deux blocs) */
-export type QuestionScope = BlockId | 0
+/**
+ * 1 / 2 = questions de jury contextualisées par le sujet blanc du bloc
+ * 3 = théorie pure d’un critère, sans contexte d’entreprise
+ * 0 = culture générale / pièges (transverses)
+ */
+export type QuestionScope = BlockId | 3 | 0
 
 export type Difficulty = 1 | 2 | 3 | 4
 
@@ -15,6 +19,7 @@ export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
 export const SCOPE_LABELS: Record<QuestionScope, string> = {
   1: 'Bloc 1 · CHU',
   2: 'Bloc 2 · OuiOuiGo',
+  3: 'Théorie pure',
   0: 'Culture générale',
 }
 
@@ -84,6 +89,33 @@ export interface Question {
   official?: boolean
   /** Question piège « censée être acquise » */
   isTrick?: boolean
+}
+
+export interface TheorySection {
+  title: string
+  points: string[]
+}
+
+export interface Source {
+  label: string
+  url: string
+}
+
+/** Cours théorique d’un critère, indépendant de tout sujet blanc. */
+export interface CriterionTheory {
+  code: string
+  /** Résumé en deux ou trois phrases */
+  intro: string
+  sections: TheorySection[]
+  /** Points à connaître par cœur */
+  takeaways: string[]
+  sources: Source[]
+}
+
+/** Un critère en théorie pure : cours + questions d’entraînement (scope 3). */
+export interface TheoryModule {
+  theory: CriterionTheory
+  questions: Question[]
 }
 
 export interface GlossaryEntry {
