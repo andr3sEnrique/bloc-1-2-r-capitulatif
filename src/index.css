@@ -21,3 +21,24 @@ body {
     padding-bottom: 3rem;
   }
 }
+
+/* Escape room : secousse sur mauvaise réponse */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[shake_0\.4s\] {
+    animation: none;
+  }
+}

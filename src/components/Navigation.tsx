@@ -5,7 +5,7 @@ const ITEMS: { route: Route; label: string; short: string; icon: string }[] = [
   { route: 'criteres', label: 'Critères & sujets', short: 'Critères', icon: 'M9 5h11M9 12h11M9 19h11M4 5h.01M4 12h.01M4 19h.01' },
   { route: 'theorie', label: 'Théorie', short: 'Théorie', icon: 'M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2zM12 6.5v13' },
   { route: 'jury', label: 'Simulateur de jury', short: 'Jury', icon: 'M4 6a2 2 0 012-2h12a2 2 0 012 2v9a2 2 0 01-2 2H9l-5 4z' },
-  { route: 'oral', label: 'Oral blanc', short: 'Oral', icon: 'M12 8v4l3 2M12 21a9 9 0 100-18 9 9 0 000 18z' },
+  { route: 'pratique', label: 'Pratique', short: 'Pratique', icon: 'M6 11h4M8 9v4M15 12h.01M18 10h.01M17.32 5H6.68a4 4 0 00-3.98 3.59L2 15a3 3 0 005.12 2.12L9 15h6l1.88 2.12A3 3 0 0022 15l-.7-6.41A4 4 0 0017.32 5z' },
   { route: 'glossaire', label: 'Glossaire', short: 'Glossaire', icon: 'M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 5v16' },
 ]
 

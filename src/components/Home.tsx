@@ -46,10 +46,10 @@ export function Home({
           </button>
           <button
             type="button"
-            onClick={() => onNavigate('oral')}
+            onClick={() => onNavigate('pratique')}
             className="rounded-xl bg-white/15 px-4 py-2.5 text-sm font-semibold text-white ring-1 ring-white/30 hover:bg-white/25"
           >
-            Oral blanc chronométré
+            🎮 Quiz, missions et escape rooms
           </button>
         </div>
       </section>

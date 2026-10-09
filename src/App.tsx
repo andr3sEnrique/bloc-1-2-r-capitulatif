@@ -5,6 +5,7 @@ import { Home } from './components/Home'
 import { JurySimulator } from './components/JurySimulator'
 import { Navigation } from './components/Navigation'
 import { OralExam } from './components/OralExam'
+import { PracticeHub } from './components/practice/PracticeHub'
 import { TheoryView } from './components/TheoryView'
 import type { BlockId } from './data/types'
 import { DEFAULT_FILTERS, type JuryFilters } from './lib/filters'
@@ -59,6 +60,7 @@ export default function App() {
           <TheoryView criterion={theoryCriterion} onCriterionChange={setTheoryCriterion} progress={progress} />
         )}
         {route === 'jury' && <JurySimulator filters={filters} onFiltersChange={setFilters} progress={progress} />}
+        {route === 'pratique' && <PracticeHub block={block} onBlockChange={setBlock} progress={progress} />}
         {route === 'oral' && <OralExam block={block} onBlockChange={setBlock} progress={progress} />}
         {route === 'glossaire' && <Glossary />}
       </main>
